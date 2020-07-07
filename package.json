@@ -2,7 +2,6 @@
   "name": "apex-legends-stat-tracker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
 	"test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "npm run build-client && npm run install-server",

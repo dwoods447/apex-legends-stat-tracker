@@ -19,14 +19,14 @@ module.exports = {
     
             if(playerOneData.errors && playerOneData.errors.length > 0){
                 //user not found
-                res.status(404).json('Error fetching profile: not found');
+                res.status(200).json({message: 'Error fetching profile: not found', status: 404});
             } else {
                 // user found send response 
-                res.status(200).json({playerOneData: playerOneData});
+                res.status(200).json({playerOneData: playerOneData, status: 200});
             }
         } catch(err){
             console.log(err);
-            res.status(500).json({message: 'Server error'});
+            res.status(500).json({message: 'Server error', status: 500});
         }
     },
     async getDuoSearchResults(req, res, next){
@@ -53,14 +53,14 @@ module.exports = {
     
             if(playerOneData.errors && playerOneData.errors.length > 0 || playerTwoData.errors && playerTwoData.errors.length > 0){
                 //user not found
-                res.status(404).json('Error fetching profile: not found');
+                res.status(200).json({message: 'Error fetching profile: not found', status: 404});
             } else {
                 // user found send response 
-                res.status(200).json({playerOneData: playerOneData, playerTwoData: playerTwoData});
+                res.status(200).json({playerOneData: playerOneData, playerTwoData: playerTwoData, status: 200});
             }
         } catch(err){
             console.log(err);
-            res.status(500).json({message: 'Server error'});
+            res.status(500).json({message: 'Server error', status: 500});
         }
     },
 
@@ -95,14 +95,14 @@ module.exports = {
     
             if(playerOneData.errors && playerOneData.errors.length > 0 || playerTwoData.errors && playerTwoData.errors.length > 0 || playerThreeData.errors && playerThreeData.errors.length > 0){
                 //user not found
-                res.status(404).json('Error fetching profile: not found');
+                res.status(200).json({message: 'Error fetching profile: not found', status: 404});
             } else {
                 // user found send response 
-                res.status(200).json({playerOneData: playerOneData, playerTwoData: playerTwoData, playerThreeData: playerThreeData});
+                res.status(200).json({playerOneData: playerOneData, playerTwoData: playerTwoData, playerThreeData: playerThreeData, status: 200});
             }
         } catch(err){
             console.log(err);
-            res.status(500).json({message: 'Server error'});
+            res.status(500).json({message: 'Server error', status: 500});
         }
     }
 

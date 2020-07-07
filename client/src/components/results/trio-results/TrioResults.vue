@@ -152,6 +152,18 @@
                  //alert('Player 2: ' + this.$store.getters.getTrioPlayerThreeSearchResults, null, 2);
                 return this.$store.getters.getTrioPlayerThreeSearchResults;
             },
+
+            resultsLoading(){
+              return this.$store.getters.getLoadingStatus;
+            },
+
+            someThingWentWrong(){
+              return this.$store.getters.getErrorStatus;
+            },
+
+            message(){
+              return this.$store.getters.getMessage;
+            }
         }
     }
 </script>

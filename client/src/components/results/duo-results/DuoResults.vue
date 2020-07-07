@@ -105,6 +105,7 @@
                  //alert('Player 2: ' + this.$store.getters.getDuosPlayerTwoSearchResults, null, 2);
                 return this.$store.getters.getDuosPlayerTwoSearchResults;
             },
+            
         },
         filters: {
           imageFilter(src){

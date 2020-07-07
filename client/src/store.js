@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
+       
         single:{
             platform: null,
             gamertag: null,
@@ -50,6 +51,9 @@ const store = new Vuex.Store({
             }
         },
 
+        hasErrors: false,
+        isLoading: false,
+        message: "Sorry we were unable to find that gamertag on that platform. Please be sure to take case-sensitvity into consideration."
 
     },
     mutations: {
@@ -136,9 +140,28 @@ const store = new Vuex.Store({
             state.trio.results.player_two = {};
             state.trio.results.player_three = {};
         },
+
+        setLoadingStatusMutation(state){
+           state.isLoading = !state.isLoading;
+        },
+        setErrorStatusMutation(state){
+            state.hasErrors = !state.hasErrors;
+        },
+        setClearErrorStatusMutation(state){
+            state.hasErrors = false;
+        },
         
     },
     actions: {
+        setLoadingStatusAction({commit}){
+            commit('setLoadingStatusMutation');
+        },
+        setErrorStatusAction({commit}){
+            commit('setErrorStatusMutation');
+        },
+        setClearErrorStatusAction({commit}){
+            commit('setClearErrorStatusMutation');
+        },
         clearResultsAction({commit}){
             commit('clearResultsMutation');
         },
@@ -181,39 +204,52 @@ const store = new Vuex.Store({
             commit('setGamertagForTrioPlayerThreeMutation', gamertag);
         },
         async submitSoloSearchAction(context){
+            context.dispatch('setClearErrorStatusAction');
+            context.dispatch('clearResultsAction');
             const formData = {
                 playerOneGamertag: context.state.single.gamertag, 
                 playerOnePlatform: context.state.single.platform, 
                 
             }
-
+            context.dispatch('setLoadingStatusAction');
             const resultsResp = (await Api.post('/api/v1/profile/solo-search/', formData)).data;
-            if(!resultsResp){
+            console.log(`Solo results: ${JSON.stringify(resultsResp, null, 2)}`);
+            if(resultsResp.status === 404){
+                context.dispatch('setLoadingStatusAction');
+                context.dispatch('setErrorStatusAction')
                 return 'Error fetching data'
             }
             context.commit('setPlayerOneSoloSearchResultsMutation', resultsResp.playerOneData);
+            context.dispatch('setLoadingStatusAction');
             return resultsResp;
 
         },
         async submitDuoSearchAction(context){
+            context.dispatch('setClearErrorStatusAction');
+            context.dispatch('clearResultsAction');
             const formData = {
                 playerOnePlatform: context.state.duo.player_one.platform, 
                 playerTwoPlatform: context.state.duo.player_two.platform, 
                 playerOneGamertag: context.state.duo.player_one.gamertag,  
                 playerTwoGamertag: context.state.duo.player_two.gamertag,
             }
-          //  alert(`Sending from client ${JSON.stringify(formData, null, 2)}`);
+            context.dispatch('setLoadingStatusAction');
             const resultsResp = (await Api.post('/api/v1/profile/duo-search/', formData)).data;
-            if(!resultsResp){
+            if(resultsResp.status === 404){
+                context.dispatch('setLoadingStatusAction');
+                context.dispatch('setErrorStatusAction');
                 return 'Error fetching data'
             }
 
             context.commit('setPlayerOneDuoSearchResultsMutation', resultsResp.playerOneData);
             context.commit('setPlayerTwoDuoSearchResultsMutation', resultsResp.playerTwoData);
+            context.dispatch('setLoadingStatusAction');
             return resultsResp;
         },
 
         async submitTrioSearchAction(context){
+            context.dispatch('setClearErrorStatusAction');
+            context.dispatch('clearResultsAction');
             const formData = {
                 playerOnePlatform: context.state.trio.player_one.platform,
                 playerOneGamertag: context.state.trio.player_one.gamertag,  
@@ -222,20 +258,31 @@ const store = new Vuex.Store({
                 playerThreePlatform: context.state.trio.player_three.platform,  
                 playerThreeGamertag: context.state.trio.player_three.gamertag,
             }
-           // alert(`Sending from client ${JSON.stringify(formData, null, 2)}`);
+            context.dispatch('setLoadingStatusAction');
             const resultsResp = (await Api.post('/api/v1/profile/trio-search/', formData)).data;
-            if(!resultsResp){
+            if(resultsResp.status === 404){
+                context.dispatch('setLoadingStatusAction');
+                context.dispatch('setErrorStatusAction');
                 return 'Error fetching data'
             }
 
             context.commit('setPlayerOneTrioSearchResultsMutation', resultsResp.playerOneData);
             context.commit('setPlayerTwoTrioSearchResultsMutation', resultsResp.playerTwoData);
             context.commit('setPlayerThreeTrioSearchResultsMutation', resultsResp.playerThreeData);
+            context.dispatch('setLoadingStatusAction');
             return resultsResp;
         }
     },
     getters: {
-   
+        getLoadingStatus(state){
+            return state.isLoading;
+        },
+        getErrorStatus(state){
+            return state.hasErrors;
+        },
+        getMessage(state){
+            return state.message;
+        },
         getPlayerOneSingleInfo(state){
             return state.single;
         },

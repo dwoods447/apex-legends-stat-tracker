@@ -1,6 +1,7 @@
 <template>
     <div>
         Results:
+       
         <div class="flex-cotainer">
            <div  class="profile-box" v-if="getSoloPlayerOneSearchResults !== undefined || getSoloPlayerOneSearchResults !== {}">
                Squad Member: 1
@@ -53,6 +54,7 @@
         data(){
             return {
                 profileData: false,
+               
             }
         },
 

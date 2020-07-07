@@ -20,14 +20,14 @@ router.get('/:platform/:gamertag', async(req, res, next)=>{
 
         if(data.errors && data.errors.length > 0){
             //user not found
-            res.status(404).json('Profile not found');
+            res.status(404).json({status: 404});
         } else {
             // user found send response 
-            res.status(200).json(data);
+            res.status(200).json({data: data, status: 200});
         }
     } catch(err){
         console.log(err);
-        res.status(500).json({message: 'Server error'});
+        res.status(500).json({message: 'Server error', status: 500});
     }
 });
 router.post('/solo-search', ProfileController.getSoloSearchResults);

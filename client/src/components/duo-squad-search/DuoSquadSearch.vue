@@ -1,6 +1,16 @@
 <template>
     <div>
-        <div class="flexcontainer" style="margin: 5% 0;"> 
+        <div class="flexcontainer" style="margin: 5% 0;">
+         <div class="text-center" v-if="resultsLoading">
+                    <v-progress-circular
+                    :size="50"
+                    color="primary"
+                    indeterminate
+                    ></v-progress-circular>
+                </div>
+                <div v-if="someThingWentWrong" class="error-message">
+                    <h1>{{message}}</h1>
+         </div>          
         <DuoSquadResults v-if="getDuosPlayerOneSearchResults && getDuosPlayerTwoSearchResults"/>
         </div>
         <div class="flexcontainer">
@@ -61,6 +71,17 @@ import DuoSquadResults from '../results/duo-results/DuoResults'
             getDuosPlayerTwoSearchResults(){
                 return this.$store.getters.getDuosPlayerTwoSearchResults;
             },
+            resultsLoading(){
+              return this.$store.getters.getLoadingStatus;
+            },
+
+            someThingWentWrong(){
+              return this.$store.getters.getErrorStatus;
+            },
+
+            message(){
+              return this.$store.getters.getMessage;
+            }
         }
     }
 </script>

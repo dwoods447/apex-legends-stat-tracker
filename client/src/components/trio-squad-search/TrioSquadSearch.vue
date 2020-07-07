@@ -1,7 +1,17 @@
 <template>
     <div>
         <div> 
-        <div class="flexcontainer" style="margin: 5% 0;"> 
+        <div class="flexcontainer" style="margin: 5% 0;">
+           <div class="text-center" v-if="resultsLoading">
+                    <v-progress-circular
+                    :size="50"
+                    color="primary"
+                    indeterminate
+                    ></v-progress-circular>
+                </div>
+                <div v-if="someThingWentWrong" class="error-message">
+                    <h1>{{message}}</h1>
+                </div>     
          <TrioSquadResults v-if="getTrioPlayerOneSearchResults && getTrioPlayerTwoSearchResults && getTrioPlayerThreeSearchResults"/>
         </div>
         <div class="flexcontainer">
@@ -73,6 +83,17 @@ import TrioSquadResults from '../results/trio-results/TrioResults'
              getTrioPlayerThreeSearchResults(){
                 return this.$store.getters.getTrioPlayerThreeSearchResults;
             },
+            resultsLoading(){
+              return this.$store.getters.getLoadingStatus;
+            },
+
+            someThingWentWrong(){
+              return this.$store.getters.getErrorStatus;
+            },
+
+            message(){
+              return this.$store.getters.getMessage;
+            }
         }
     }
 </script>

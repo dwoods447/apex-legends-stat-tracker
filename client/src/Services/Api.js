@@ -10,7 +10,7 @@ if(process.env.NODE_ENV !== 'production'){
   })
 }else {
   api =  axios.create({
-    baseURL: 'http://apex-tracker-vue-node.herokuapp.com'
+    baseURL: 'https://apex-tracker-vue-node.herokuapp.com'
   })
 }
 export default api

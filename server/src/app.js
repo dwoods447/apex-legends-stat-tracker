@@ -23,9 +23,10 @@ app.use(bodyParser.json());
 // Front-End Client 
 app.use('/', express.static(path.join(__dirname, '../../client/dist')));
 app.use('/api/v1/profile', profile);
-app.get('/.*/', function(req, res){
-    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
-});
+
+// app.get('/.*/', function(req, res){
+//     res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+// });
 
 const PORT  = process.env.PORT || 3000;
 

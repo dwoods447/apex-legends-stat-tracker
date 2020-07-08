@@ -184,7 +184,7 @@
   justify-content: center;
 }
 .profile-box{
-  width: 700px;
+  width: 600px;
   height: 600px;
   background-color: #fff;
   padding: 1em;
